@@ -1,0 +1,54 @@
+name: Copy Artmug assets into repository
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  copy-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace submodule with real asset files
+        shell: bash
+        run: |
+          set -e
+          git rm -f artmug-assets 2>/dev/null || true
+          rm -rf artmug-assets
+          rm -f .gitmodules
+
+          git clone --depth 1 https://github.com/h4y4m/Artmug-html.git /tmp/artmug-source
+          cp -a /tmp/artmug-source/artmug-assets ./artmug-assets
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('https://raw.githubusercontent.com/h4y4m/Artmug-html/main/artmug-assets/', 'artmug-assets/')
+          s = s.replace('https://raw.githubusercontent.com/h4y4m/Artmug-html/main/', '')
+          s = re.sub(r"(\['하리'[^\n]*?'hari\.png'\])(\s*\n\s*)(\['Titanium_TAI')", r"\1,\2\3", s)
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit real files
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes needed."
+            exit 0
+          fi
+          git commit -m "Copy Artmug image assets into repository"
+          git push
