@@ -12,16 +12,19 @@ jobs:
   copy-assets:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout target repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+      - name: Clone target repository manually
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
 
       - name: Replace submodule with real asset files
         shell: bash
         run: |
           set -e
+          cd repo
           git rm -f artmug-assets 2>/dev/null || true
           rm -rf artmug-assets
           rm -f .gitmodules
@@ -46,6 +49,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -e
+          cd repo
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
