@@ -22,6 +22,8 @@ jobs:
 
       - name: Replace submodule with real asset files
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -e
           cd repo
@@ -29,7 +31,7 @@ jobs:
           rm -rf artmug-assets
           rm -f .gitmodules
 
-          git clone --depth 1 https://github.com/h4y4m/Artmug-html.git /tmp/artmug-source
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/h4y4m/Artmug-html.git" /tmp/artmug-source
           cp -a /tmp/artmug-source/artmug-assets ./artmug-assets
 
           python - <<'PY'
