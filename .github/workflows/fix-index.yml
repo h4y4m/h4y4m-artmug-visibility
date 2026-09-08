@@ -1,0 +1,44 @@
+name: Fix index.js syntax
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fix missing commas in ILLUST array
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = "['하리','https://artmug.kr/index.php?channel=view&uid=40270',['일러스트 5만원 할인','리깅 5만원 할인','표정 파츠, 리깅 3개 무료'],'hari.png']\n  ['Titanium_TAI'"
+          new = "['하리','https://artmug.kr/index.php?channel=view&uid=40270',['일러스트 5만원 할인','리깅 5만원 할인','표정 파츠, 리깅 3개 무료'],'hari.png'],\n  ['Titanium_TAI'"
+          if old in s:
+              s = s.replace(old, new, 1)
+          else:
+              print('Target comma pattern already fixed or not found.')
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit fix
+        run: |
+          if git diff --quiet -- index.html; then
+            echo 'No changes needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Fix index.html JavaScript syntax'
+          git push
