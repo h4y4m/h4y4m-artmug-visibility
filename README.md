@@ -1,6 +1,6 @@
 # 하얌이 / HAYAM — Live2D 리깅 커미션 페이지
 
-공개 주소: **https://n-ightmar-e.github.io/artmug-rigging-page/**
+공개 주소: **https://h4y4m.github.io/h4y4m-artmug-visibility/**
 
 `main` 브랜치에 푸시하면 자동으로 다시 배포됩니다 (반영까지 1~2분).
 
