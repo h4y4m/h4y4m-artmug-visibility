@@ -765,7 +765,9 @@ function collabCard(a,role){
     +'<div class="collab-name">'+a[0]+'님</div>'
     +'<div class="collab-role">'+role+'</div>'
     +'<div class="collab-desc">'+a[2].map(function(b){return '<span>· '+b+'</span>';}).join('')+'</div>'
-    +'<a class="collab-btn" href="'+a[1]+'" target="_blank" rel="noopener">작가님 페이지로 이동 →</a>'
+    +(a[0]==='Titanium_TAI'
+  ? ''
+  : '<a class="collab-btn" href="'+a[1]+'" target="_blank" rel="noopener">작가님 페이지로 이동 →</a>')
     +'</div></div>';
 }
 document.getElementById('collabIllust').innerHTML=ILLUST.map(function(a){return collabCard(a,'일러스트');}).join('');
