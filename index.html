@@ -46,7 +46,7 @@ body{
   background:#f7f9fc;color:var(--text-body);line-height:1.6;
   word-break:keep-all;
 }
-.wrap{max-width:960px;margin:0 auto;padding:28px 20px 80px}
+.wrap{max-width:960px;margin:0 auto;padding:28px 20px 24px}
 section{margin-top:0}
 
 /* ── section-title ─────────────────────────────── */
@@ -862,15 +862,18 @@ copyBtn.addEventListener('click',function(){
   }
 });
 
-/* ═══ iframe 임베드 — 높이 전송 (단독 페이지면 미발동) ═══ */
+/* ═══ iframe 임베드 — 실제 콘텐츠 높이 전송 ═══ */
 if(window.parent!==window){
+  var wrap=document.querySelector('.wrap');
   var post=function(){
-    parent.postMessage({type:'resize',height:document.documentElement.scrollHeight},'*');
+    var height=Math.ceil(wrap.getBoundingClientRect().height);
+    parent.postMessage({type:'resize',height:height},'*');
   };
   if('ResizeObserver' in window){
-    new ResizeObserver(post).observe(document.body);
+    new ResizeObserver(post).observe(wrap);
   }else{
     window.addEventListener('load',post);
+    window.addEventListener('resize',post);
   }
   post();
 }
