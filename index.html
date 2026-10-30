@@ -111,6 +111,9 @@ section{margin-top:0}
 }
 .slot-legend .k-full i{background:var(--full-fill);border-color:var(--full-line)}
 
+.slot-card.is-unset{background:#f5f7fa;border-color:#d5dbe3}
+.slot-card.is-unset .slot-state{color:#64748b}
+.slot-card.is-unset .slot-seg{background:#e2e8f0;border-color:#cbd5e1}
 /* ── am-carousel@tray (2. 포트폴리오 — 유튜브 4편) ── */
 .car{position:relative;max-width:760px;margin:0 auto}
 .car-frame{position:relative;border-radius:20px;overflow:hidden;background:#0e1116;border:1.5px solid var(--line)}
@@ -585,18 +588,33 @@ section{margin-top:0}
 'use strict';
 
 /* ═══ 1. 예약 현황 — 문서 정본: 1~8월 마감 · 9~12월 가능 ═══ */
-var SLOTS=[
-  ['1월',true],['2월',true],['3월',true],['4월',true],
-  ['5월',true],['6월',true],['7월',true],['8월',true],
-  ['9월',true],['10월',false],['11월',false],['12월',true]
-];
+// 예약 상태: true=마감, false=가능. 미등록 월은 '일정 문의'.
+var SLOT_STATUS={
+ '2026-01':true,'2026-02':true,'2026-03':true,'2026-04':true,
+ '2026-05':true,'2026-06':true,'2026-07':true,'2026-08':true,
+ '2026-09':true,'2026-10':false,'2026-11':false,'2026-12':true
+};
 var slotGrid=document.getElementById('slotGrid');
-slotGrid.innerHTML=SLOTS.map(function(m){
-  return '<div class="slot-card'+(m[1]?' is-full':'')+'">'
-    +'<div class="slot-head"><span class="slot-month">'+m[0]+'</span>'
-    +'<span class="slot-state">'+(m[1]?'예약마감':'예약가능')+'</span></div>'
-    +'<div class="slot-track"><span class="slot-seg"></span></div></div>';
-}).join('');
+function renderSlots(){
+ var parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',year:'numeric',month:'numeric'}).formatToParts(new Date());
+ var year=Number(parts.find(function(p){return p.type==='year';}).value);
+ var month=Number(parts.find(function(p){return p.type==='month';}).value)-1;
+ var cards=[];
+ for(var i=0;i<6;i++){
+  var date=new Date(Date.UTC(year,month+i,1));
+  var y=date.getUTCFullYear(),m=date.getUTCMonth()+1;
+  var key=y+'-'+String(m).padStart(2,'0');
+  var status=Object.prototype.hasOwnProperty.call(SLOT_STATUS,key)?SLOT_STATUS[key]:null;
+  var state=status===true?'예약마감':status===false?'예약가능':'일정 문의';
+  cards.push('<div class="slot-card'+(status===true?' is-full':status===null?' is-unset':'')+'">'
+   +'<div class="slot-head"><span class="slot-month">'+y+'년 '+m+'월</span>'
+   +'<span class="slot-state">'+state+'</span></div>'
+   +'<div class="slot-track"><span class="slot-seg"></span></div></div>');
+ }
+ slotGrid.innerHTML=cards.join('');
+}
+renderSlots();
+setInterval(renderSlots,60000);
 /* ═══ 2. 포트폴리오 캐러셀 — 유튜브 4편 (문서 정본) ═══ */
 var VIDEOS=[
   'https://youtu.be/beuohiSH4Gk',
