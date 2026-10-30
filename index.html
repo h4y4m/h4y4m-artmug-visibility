@@ -207,69 +207,15 @@ section{margin-top:0}
   border:solid #1c7ed6;border-width:0 2px 2px 0;transform:rotate(43deg);
 }
 
-/* ── eo-calc-item ×12 + dark-summary ── */
-.calc-caption{font-size:15px;font-weight:800;color:var(--text-title);margin:26px 0 12px}
-.calc-list{display:flex;flex-direction:column;gap:10px}
-.calc-row .calc-item{
-  display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:14px;background:var(--surface-sunk);border-radius:10px;border:1px solid var(--line);
-  cursor:pointer;transition:background .18s;
-}
-.calc-row .calc-item:hover{background:#f1f3f5}
-.calc-row.has-qty.checked .calc-item{border-radius:10px 10px 0 0;border-bottom:none;background:#eef3f8}
-.calc-item label{display:flex;align-items:center;gap:10px;cursor:pointer;flex:1;min-width:0}
-.calc-item input[type="checkbox"]{transform:scale(1.3);accent-color:var(--brand);flex:0 0 auto}
-.calc-name{font-size:14px;font-weight:600;color:var(--text-body)}
-.calc-price{font-weight:800;color:var(--brand);white-space:nowrap;font-size:14px}
-.calc-qty{
-  display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--out-quint);
-}
-.calc-qty>div{
-  overflow:hidden;
-  display:flex;justify-content:space-between;align-items:center;
-  background:#fff;border:1px solid var(--line-strong);border-top:0 dashed transparent;
-  border-radius:0 0 10px 10px;padding:0 14px;
-}
-.calc-row.checked .calc-qty{grid-template-rows:1fr}
-.calc-row.checked .calc-qty>div{padding:14px;border-top:1px dashed #ccc}
-.calc-qty span{font-size:13px;color:var(--text-body);font-weight:600}
-.calc-qty input{
-  width:72px;text-align:center;padding:8px 6px;border:1px solid var(--line-strong);border-radius:8px;
-  font-size:14px;font-family:inherit;
-  transition:border-color .2s,box-shadow .2s;
-}
-.calc-qty input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(var(--brand-rgb),.1)}
-/* 마우스 추적 툴팁 */
-.cursor-tip{
-  position:fixed;z-index:99;pointer-events:none;display:none;
-  background:#fff;border:1px solid var(--line-strong);border-radius:10px;
-  padding:9px 13px;font-size:12.5px;color:var(--text-sub);max-width:260px;
-  box-shadow:0 8px 24px rgba(10,40,80,.14);
-}
-
-.sum{
-  margin-top:22px;
-  background:#1a1e23;border:1px solid #2c3238;border-radius:20px;padding:30px;
-  box-shadow:0 20px 40px rgba(0,0,0,.15);
-}
-.sum-head{
-  display:flex;justify-content:space-between;align-items:flex-end;gap:14px;
-  padding-bottom:16px;border-bottom:1px solid #3c424a;
-}
-.sum-title{font-size:17px;font-weight:800;color:#fff}
-.sum-total-label{display:block;font-size:13px;color:#8ba1b7;text-align:right;margin-bottom:2px}
-.sum-total{font-size:28px;font-weight:900;color:#ffd43b;line-height:1.2}
-.sum-body{background:#23282e;border-radius:12px;padding:18px;margin-top:16px}
-.sum-body-cap{
-  font-size:13px;color:#8ba1b7;padding-bottom:10px;margin-bottom:10px;
-  border-bottom:1px dashed #3c424a;
-}
-.sum-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.sum-list li{display:flex;justify-content:space-between;gap:12px;font-size:14px}
-.sum-list .n{color:#fff}
-.sum-list .p{color:#ffd43b;font-weight:700;white-space:nowrap}
-.sum-note{font-size:12px;color:#8ba1b7;margin-top:14px;line-height:1.7}
-
+/* ── Additional options: four compact cards ── */
+.addon-heading{font-size:16px;font-weight:800;color:var(--text-title);margin:26px 0 14px}
+.addon-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.addon-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.addon-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.addon-name{font-size:14px;font-weight:600;color:var(--text-body)}
+.addon-cost{font-size:14px;font-weight:700;color:var(--brand);white-space:nowrap}
+.addon-note{font-size:12.5px;color:var(--text-sub);margin-top:12px;line-height:1.7}
+@media(max-width:600px){.addon-grid{grid-template-columns:1fr}.addon-card{padding:17px}}
 /* ── am-collab-card ×11 (5. 협업 작가) ── */
 .collab-cap{font-size:15px;font-weight:800;color:var(--text-title);margin:26px 0 12px}
 .collab-cap:first-of-type{margin-top:0}
@@ -485,26 +431,30 @@ section{margin-top:0}
       </ul>
     </div>
 
-    <h3 class="calc-caption">추가 가능 옵션</h3>
-    <div class="calc-list" id="calcList"></div>
-
-    <!-- dark-summary — 페이지 유일 다크 패널 -->
-    <div class="sum" aria-live="polite">
-      <div class="sum-head">
-        <span class="sum-title">견적 요약</span>
-        <div>
-          <span class="sum-total-label">예상 총액</span>
-          <span class="sum-total" id="sumTotal">1,500,000원</span>
-        </div>
+    <h3 class="addon-heading">추가 옵션</h3>
+    <div class="addon-grid">
+      <div class="addon-card">
+        <div class="addon-line"><span class="addon-name">단순 표정</span><span class="addon-cost">₩20,000</span></div>
+        <div class="addon-line"><span class="addon-name">물리 표정</span><span class="addon-cost">₩30,000</span></div>
+        <div class="addon-line"><span class="addon-name">애니메이션 표정</span><span class="addon-cost">₩50,000</span></div>
       </div>
-      <div class="sum-body">
-        <div class="sum-body-cap">선택된 항목 상세 내역</div>
-        <ul class="sum-list" id="sumList">
-          <li><span class="n">전신 리깅 기본</span><span class="p">1,500,000원</span></li>
-        </ul>
+      <div class="addon-card">
+        <div class="addon-line"><span class="addon-name">혀 내밀기</span><span class="addon-cost">₩120,000</span></div>
+        <div class="addon-line"><span class="addon-name">VBridger</span><span class="addon-cost">₩300,000</span></div>
       </div>
-      <p class="sum-note">'~' 표시 옵션은 작업 내용에 따라 확정되는 '부터' 가격입니다. 정확한 금액은 문의 시 견적으로 안내드립니다.</p>
+      <div class="addon-card">
+        <div class="addon-line"><span class="addon-name">소품 추가</span><span class="addon-cost">₩50,000~</span></div>
+        <div class="addon-line"><span class="addon-name">팔 추가</span><span class="addon-cost">₩100,000~</span></div>
+        <div class="addon-line"><span class="addon-name">추가 헤어</span><span class="addon-cost">₩250,000~</span></div>
+        <div class="addon-line"><span class="addon-name">추가 의상</span><span class="addon-cost">₩400,000~</span></div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-line"><span class="addon-name">애니메이션 효과</span><span class="addon-cost">₩50,000</span></div>
+        <div class="addon-line"><span class="addon-name">다가오기</span><span class="addon-cost">₩200,000</span></div>
+        <div class="addon-line"><span class="addon-name">비대칭 포즈</span><span class="addon-cost">₩100,000~</span></div>
+      </div>
     </div>
+    <p class="addon-note">※ 표정·소품·팔·헤어·의상 등은 개당 가격입니다. '~' 표시 금액은 시작 가격이며 작업 내용에 따라 달라질 수 있습니다.</p>
   </section>
 
   <!-- ━━ 5. 협업 작가 · am-collab-card ×11 ━━ -->
@@ -581,7 +531,7 @@ section{margin-top:0}
 
 </div>
 
-<div class="cursor-tip" id="cursorTip"></div>
+
 
 <script>
 (function(){
@@ -671,91 +621,6 @@ car.addEventListener('keydown',function(e){
   if(e.key==='ArrowLeft'){e.preventDefault();go(idx-1);}
   if(e.key==='ArrowRight'){e.preventDefault();go(idx+1);}
 });
-
-/* ═══ 4. 추가 가능 옵션 계산기 — 가격 정본: 구글 문서 ═══ */
-var BASE=1500000;
-/* [이름, 가격, 수량형, '~'(부터) 여부, 툴팁] */
-var OPTS=[
-  ['단순 표정',20000,true,false,'개당 20,000원 · 수량만큼 합산됩니다'],
-  ['단순 표정+물리',30000,true,false,'개당 30,000원 · 수량만큼 합산됩니다'],
-  ['애니메이션 표정',50000,true,false,'개당 50,000원 · 수량만큼 합산됩니다'],
-  ['혀 내밀기',120000,false,false,'선택 시 견적에 합산됩니다'],
-  ['VBridger',300000,false,false,'선택 시 견적에 합산됩니다'],
-  ['애니메이션 효과',50000,true,false,'개당 50,000원 · 수량만큼 합산됩니다'],
-  ['팔 추가 (마이크, 게임패드 등)',100000,true,true,"개당 100,000원부터 · 정확한 금액은 작업 내용에 따라 견적으로 확정됩니다"],
-  ['소품 추가 (동물귀, 꼬리, 날개 등)',50000,true,true,"개당 50,000원부터 · 정확한 금액은 작업 내용에 따라 견적으로 확정됩니다"],
-  ['다가오기',200000,false,false,'선택 시 견적에 합산됩니다'],
-  ['추가 헤어',250000,true,true,"개당 250,000원부터 · 정확한 금액은 작업 내용에 따라 견적으로 확정됩니다"],
-  ['추가 의상',400000,true,true,"개당 400,000원부터 · 정확한 금액은 작업 내용에 따라 견적으로 확정됩니다"],
-  ['비대칭 포즈',100000,false,true,"'부터' 가격 — 정확한 금액은 작업 내용에 따라 견적으로 확정됩니다"]
-];
-function won(n){return n.toLocaleString('ko-KR')+'원';}
-var calcList=document.getElementById('calcList');
-OPTS.forEach(function(o,i){
-  var row=document.createElement('div');
-  row.className='calc-row'+(o[2]?' has-qty':'');
-  row.innerHTML=
-    '<div class="calc-item" data-tip="'+o[4]+'">'
-    +'<label><input type="checkbox" data-i="'+i+'"><span class="calc-name">'+o[0]+'</span></label>'
-    +'<span class="calc-price">'+won(o[1])+(o[3]?'~':'')+(o[2]?' / 개':'')+'</span></div>'
-    +(o[2]?'<div class="calc-qty"><div><span>수량 (개)</span><input type="number" min="1" value="1" data-qi="'+i+'" aria-label="'+o[0]+' 수량"></div></div>':'');
-  calcList.appendChild(row);
-});
-var sumTotal=document.getElementById('sumTotal');
-var sumList=document.getElementById('sumList');
-function calc(){
-  var total=BASE,open=false;
-  var html='<li><span class="n">전신 리깅 기본</span><span class="p">'+won(BASE)+'</span></li>';
-  calcList.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
-    if(!cb.checked)return;
-    var o=OPTS[+cb.dataset.i];
-    var q=1;
-    if(o[2]){
-      var qin=calcList.querySelector('input[data-qi="'+cb.dataset.i+'"]');
-      q=Math.max(1,parseInt(qin.value,10)||1);
-    }
-    var amt=o[1]*q;
-    total+=amt;
-    if(o[3])open=true;
-    html+='<li><span class="n">'+o[0]+(o[2]&&q>1?' × '+q:'')+'</span><span class="p">'+won(amt)+(o[3]?'~':'')+'</span></li>';
-  });
-  sumList.innerHTML=html;
-  sumTotal.textContent=won(total)+(open?'~':'');
-}
-calcList.addEventListener('change',function(e){
-  var t=e.target;
-  if(t.type==='checkbox'){
-    var row=t.closest('.calc-row');
-    row.classList.toggle('checked',t.checked);
-    if(!t.checked){
-      var qin=row.querySelector('input[type="number"]');
-      if(qin)qin.value=1;
-    }
-  }
-  calc();
-});
-calcList.addEventListener('input',function(e){
-  if(e.target.type==='number')calc();
-});
-calc();
-
-/* 마우스 추적 툴팁 — hover 포인터에서만 */
-var tip=document.getElementById('cursorTip');
-if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-  document.addEventListener('mousemove',function(e){
-    var t=e.target.closest('[data-tip]');
-    if(t){
-      tip.textContent=t.dataset.tip;
-      tip.style.display='block';
-      var x=e.clientX+16,y=e.clientY+18;
-      if(x+tip.offsetWidth>window.innerWidth-12)x=e.clientX-tip.offsetWidth-12;
-      if(y+tip.offsetHeight>window.innerHeight-12)y=e.clientY-tip.offsetHeight-12;
-      tip.style.left=x+'px';tip.style.top=y+'px';
-    }else{
-      tip.style.display='none';
-    }
-  });
-}
 
 /* ═══ 5. 협업 작가 — 문서 정본 11명 ═══ */
 var ILLUST=[
