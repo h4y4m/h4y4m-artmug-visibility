@@ -216,6 +216,17 @@ section{margin-top:0}
 .addon-cost{font-size:14px;font-weight:700;color:var(--brand);white-space:nowrap}
 .addon-note{font-size:12.5px;color:var(--text-sub);margin-top:12px;line-height:1.7}
 @media(max-width:600px){.addon-grid{grid-template-columns:1fr}.addon-card{padding:17px}}
+/* 접기/펼치기: 기본 닫힘, 키보드 조작 지원 */
+.section-fold>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;list-style:none}
+.section-fold>summary::-webkit-details-marker{display:none}
+.section-fold>summary::marker{content:''}
+.section-fold>summary:focus-visible{outline:3px solid var(--brand);outline-offset:5px;border-radius:5px}
+.fold-chevron{width:12px;height:12px;flex:none;border-right:2px solid var(--brand);border-bottom:2px solid var(--brand);transform:rotate(45deg);transition:transform .2s ease;margin-right:7px}
+.section-fold[open] .fold-chevron{transform:rotate(225deg)}
+.fold-content{padding-top:26px}
+.fold-content .collab-cap:first-child{margin-top:0}
+@media(prefers-reduced-motion:reduce){.fold-chevron{transition:none}}
+
 /* ── am-collab-card ×11 (5. 협업 작가) ── */
 .collab-cap{font-size:15px;font-weight:800;color:var(--text-title);margin:26px 0 12px}
 .collab-cap:first-of-type{margin-top:0}
@@ -457,19 +468,25 @@ section{margin-top:0}
     <p class="addon-note">※ 표정·소품·팔·헤어·의상 등은 개당 가격입니다. '~' 표시 금액은 시작 가격이며 작업 내용에 따라 달라질 수 있습니다.</p>
   </section>
 
-  <!-- ━━ 5. 협업 작가 · am-collab-card ×11 ━━ -->
+  <!-- ━━ 5. 협업 작가: 기본 접힘 ━━ -->
   <section aria-labelledby="sec-collab">
-    <h2 class="st" id="sec-collab">5. 협업 작가</h2>
-    <h3 class="collab-cap">일러스트 협업</h3>
-    <div class="collab-grid" id="collabIllust"></div>
-    <h3 class="collab-cap">디자인 협업</h3>
-    <div class="collab-grid" id="collabDesign"></div>
+    <details class="section-fold">
+      <summary class="st" id="sec-collab">5. 협업 작가 <span class="fold-chevron" aria-hidden="true"></span></summary>
+      <div class="fold-content">
+        <h3 class="collab-cap">일러스트 협업</h3>
+        <div class="collab-grid" id="collabIllust"></div>
+        <h3 class="collab-cap">디자인 협업</h3>
+        <div class="collab-grid" id="collabDesign"></div>
+      </div>
+    </details>
   </section>
 
-  <!-- ━━ 6. 주의사항 · am-notice-list ━━ -->
+  <!-- ━━ 6. 주의사항: 기본 접힘 ━━ -->
   <section aria-labelledby="sec-notice">
-    <h2 class="st" id="sec-notice">6. 주의사항</h2>
-    <ul class="notice-ul" id="noticeList"></ul>
+    <details class="section-fold">
+      <summary class="st" id="sec-notice">6. 주의사항 <span class="fold-chevron" aria-hidden="true"></span></summary>
+      <div class="fold-content"><ul class="notice-ul" id="noticeList"></ul></div>
+    </details>
   </section>
 
   <!-- ━━ 7. 신청 양식 · notice-block + eo-field·am-chip-group + am-form-preview ━━ -->
