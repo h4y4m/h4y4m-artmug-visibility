@@ -157,7 +157,8 @@ section{margin-top:0}
 .feat-media.cols-3{grid-template-columns:repeat(3,1fr)}
 .feat-media.cols-5{grid-template-columns:repeat(6,minmax(0,1fr))}
 .feat-media.cols-5 figure{grid-column:span 2;min-width:0}
-.feat-media.cols-5 figure:nth-child(n+4){grid-column:span 3}
+.feat-media.cols-5 figure:nth-child(4){grid-column:2 / span 2}
+.feat-media.cols-5 figure:nth-child(5){grid-column:4 / span 2}
 .feat-media figure{margin:0}
 .feat-media img{
   width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
