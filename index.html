@@ -351,10 +351,9 @@ section{margin-top:0}
 .sale-view{display:block;width:100%;min-height:40px;margin-top:9px;border:0;border-radius:9px;background:var(--brand);color:#fff;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
 .sale-view:hover{background:#00458f}
 .sale-view:focus-visible,.sale-close:focus-visible{outline:3px solid var(--brand-tint-line);outline-offset:2px}
-.sale-modal-open{overflow:hidden}
-.sale-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;background:rgba(14,25,44,.76)}
+.sale-modal{margin-top:24px;scroll-margin-top:20px}
 .sale-modal[hidden]{display:none}
-.sale-dialog{position:relative;width:min(100%,1100px);max-height:calc(100dvh - 40px);overflow-y:auto;padding:22px;border-radius:20px;background:#fff;box-shadow:0 20px 70px rgba(0,0,0,.3)}
+.sale-dialog{width:100%;padding:22px;border:1.5px solid var(--brand-tint-line);border-radius:18px;background:#fff;box-shadow:0 8px 24px rgba(0,86,179,.06)}
 .sale-modal-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
 .sale-modal-title{font-size:20px;font-weight:800;color:var(--text-title)}
 .sale-close{flex:none;width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface-sunk);color:var(--text-title);font-family:inherit;font-size:24px;cursor:pointer}
@@ -371,8 +370,7 @@ section{margin-top:0}
 @media(max-width:600px){
   .sale-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .sale-card-info{padding:10px}
-  .sale-modal{padding:10px}
-  .sale-dialog{padding:16px;max-height:calc(100dvh - 20px)}
+  .sale-dialog{padding:16px}
   .sale-modal-grid{grid-template-columns:minmax(0,1fr)}
   .sale-full{height:min(50vh,450px)}
 }
@@ -522,6 +520,25 @@ section{margin-top:0}
     <h2 class="st" id="sec-sale">5. 판매 모델</h2>
     <p class="sale-note">판매 중인 Live2D 모델을 확인하실 수 있습니다. 모델은 순차적으로 추가될 예정입니다.</p>
     <div class="sale-grid" id="saleGrid"></div>
+<!-- 판매 모델 상세 보기: 판매 모델 섹션 내부에 표시 -->
+<div class="sale-modal" id="saleModal" role="region" tabindex="-1" aria-labelledby="saleModalTitle" hidden>
+  <div class="sale-dialog">
+    <div class="sale-modal-head">
+      <h2 class="sale-modal-title" id="saleModalTitle">판매 모델</h2>
+      <button type="button" class="sale-close" id="saleClose" aria-label="팝업 닫기">×</button>
+    </div>
+    <div class="sale-modal-grid">
+      <div>
+        <h3 class="sale-panel-label">전신 이미지</h3>
+        <div class="sale-media sale-full" id="saleFull"></div>
+      </div>
+      <div>
+        <h3 class="sale-panel-label">움직임 영상</h3>
+        <div class="sale-media sale-motion" id="saleMotion"></div>
+      </div>
+    </div>
+  </div>
+</div>
   </section>
 
   <!-- ━━ 6. 협업 작가: 기본 접힘 ━━ -->
@@ -604,25 +621,6 @@ section{margin-top:0}
 
 </div>
 
-<!-- 판매 모델 상세 팝업: 페이지의 기존 .wrap 밖에 배치 -->
-<div class="sale-modal" id="saleModal" role="dialog" aria-modal="true" aria-labelledby="saleModalTitle" hidden>
-  <div class="sale-dialog">
-    <div class="sale-modal-head">
-      <h2 class="sale-modal-title" id="saleModalTitle">판매 모델</h2>
-      <button type="button" class="sale-close" id="saleClose" aria-label="팝업 닫기">×</button>
-    </div>
-    <div class="sale-modal-grid">
-      <div>
-        <h3 class="sale-panel-label">전신 이미지</h3>
-        <div class="sale-media sale-full" id="saleFull"></div>
-      </div>
-      <div>
-        <h3 class="sale-panel-label">움직임 영상</h3>
-        <div class="sale-media sale-motion" id="saleMotion"></div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 (function(){
@@ -766,8 +764,7 @@ function closeSaleModel(){
   saleMotion.replaceChildren(); // iframe도 제거되어 YouTube 재생이 중단됨
   saleFull.replaceChildren();
   saleModal.hidden=true;
-  document.body.classList.remove('sale-modal-open');
-  if(saleLastOpener&&saleLastOpener.isConnected)saleLastOpener.focus();
+  if(saleLastOpener&&saleLastOpener.isConnected&&document.activeElement===saleClose)saleLastOpener.focus();
 }
 function openSaleModel(model,opener){
   saleLastOpener=opener;
@@ -796,8 +793,7 @@ function openSaleModel(model,opener){
     }
   }
   saleModal.hidden=false;
-  document.body.classList.add('sale-modal-open');
-  saleClose.focus();
+  saleModal.scrollIntoView({block:'start',behavior:'smooth'});
 }
 models.forEach(function(model){
   var card=document.createElement('article');
@@ -826,7 +822,9 @@ models.forEach(function(model){
   saleGrid.appendChild(card);
 });
 saleClose.addEventListener('click',closeSaleModel);
-saleModal.addEventListener('click',function(e){if(e.target===saleModal)closeSaleModel();});
+document.addEventListener('click',function(e){
+  if(!saleModal.hidden&&!saleModal.contains(e.target)&&!e.target.closest('.sale-view'))closeSaleModel();
+});
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'&&!saleModal.hidden)closeSaleModel();
 });
