@@ -10,8 +10,8 @@
   → [2.포트폴리오] am-carousel@tray(유튜브 4편)
   → [3.리깅 디테일] eo-feature×2 → [4.가격 안내] am-price-card
   + notice-block@checklist + eo-calc-item×12 + dark-summary
-  → [5.협업 작가] am-collab-card×11 → [6.주의사항] am-notice-list
-  → [7.신청 양식] notice-block + eo-field×5 + am-chip-group×2
+  → [5.판매 모델] 갤러리/팝업 → [6.협업 작가] am-collab-card×11
+  → [7.주의사항] am-notice-list → [8.신청 양식] notice-block + eo-field×5 + am-chip-group×2
   + am-form-preview
   콘텐츠 정본: 구글 문서(2026-08-09 전달). 작가명 확정: 하얌이/HAYAM.
   프로필 사진: artmug-assets/profile.png (파일 교체 방식 — 맨 아래 README 참고).
@@ -278,7 +278,7 @@ section{margin-top:0}
 .notice-ul li.danger{border-color:#f5c0b8;background:#fff8f7;color:var(--warn)}
 .notice-ul li.danger .notice-num{background:#f5a090;color:#fff}
 
-/* ── notice-block (7. 신청 양식 안내) ── */
+/* ── notice-block (8. 신청 양식 안내) ── */
 .nb{
   border-left:4px solid #1c7ed6;
   background:linear-gradient(135deg,#e7f5ff,#f1f8ff);
@@ -333,6 +333,45 @@ section{margin-top:0}
 .prev-body{
   padding:18px;white-space:pre-wrap;line-height:2;font-size:13.5px;color:var(--text-body);
   user-select:all;-webkit-user-select:all;
+}
+
+
+/* ── 5. 판매 모델 갤러리 (기존 스타일과 분리) ── */
+.sale-note{font-size:14px;color:var(--text-sub);margin-top:16px}
+.sale-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px}
+.sale-card{min-width:0;overflow:hidden;background:#fff;border:1.5px solid var(--line);border-radius:16px}
+.sale-thumb{width:100%;aspect-ratio:2/3;background:var(--surface-sunk);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.sale-thumb img{display:block;width:100%;height:100%;object-fit:contain}
+.sale-empty{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:var(--text-faint);font-size:14px;font-weight:600}
+.sale-card-info{padding:12px}
+.sale-card-name{color:var(--text-title);font-size:14.5px;font-weight:800;overflow-wrap:anywhere}
+.sale-view{display:block;width:100%;min-height:40px;margin-top:9px;border:0;border-radius:9px;background:var(--brand);color:#fff;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.sale-view:hover{background:#00458f}
+.sale-view:focus-visible,.sale-close:focus-visible{outline:3px solid var(--brand-tint-line);outline-offset:2px}
+.sale-modal-open{overflow:hidden}
+.sale-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;background:rgba(14,25,44,.76)}
+.sale-modal[hidden]{display:none}
+.sale-dialog{position:relative;width:min(100%,1100px);max-height:calc(100dvh - 40px);overflow-y:auto;padding:22px;border-radius:20px;background:#fff;box-shadow:0 20px 70px rgba(0,0,0,.3)}
+.sale-modal-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.sale-modal-title{font-size:20px;font-weight:800;color:var(--text-title)}
+.sale-close{flex:none;width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface-sunk);color:var(--text-title);font-family:inherit;font-size:24px;cursor:pointer}
+.sale-modal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.sale-panel-label{margin-bottom:8px;font-size:14px;font-weight:700;color:var(--text-sub)}
+.sale-media{display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:12px;background:var(--surface-sunk)}
+.sale-full{height:min(66vh,620px)}
+.sale-full img{display:block;width:100%;height:100%;object-fit:contain}
+.sale-motion{aspect-ratio:16/9}
+.sale-motion video,.sale-motion iframe{display:block;width:100%;height:100%;border:0;background:#111}
+@media(max-width:768px){
+  .sale-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  .sale-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .sale-card-info{padding:10px}
+  .sale-modal{padding:10px}
+  .sale-dialog{padding:16px;max-height:calc(100dvh - 20px)}
+  .sale-modal-grid{grid-template-columns:minmax(0,1fr)}
+  .sale-full{height:min(50vh,450px)}
 }
 
 /* ── 반응형 ── */
@@ -474,10 +513,18 @@ section{margin-top:0}
     <p class="addon-note">※ 표정·소품·팔·헤어·의상 등은 개당 가격입니다. '~' 표시 금액은 시작 가격이며 작업 내용에 따라 달라질 수 있습니다.</p>
   </section>
 
-  <!-- ━━ 5. 협업 작가: 기본 접힘 ━━ -->
+
+  <!-- ━━ 5. 판매 모델 ━━ -->
+  <section aria-labelledby="sec-sale">
+    <h2 class="st" id="sec-sale">5. 판매 모델</h2>
+    <p class="sale-note">이곳은 리깅 커미션 신청과 별도로 판매하는 완성형 Live2D 모델을 소개하는 공간입니다. 현재 등록을 준비 중입니다.</p>
+    <div class="sale-grid" id="saleGrid"></div>
+  </section>
+
+  <!-- ━━ 6. 협업 작가: 기본 접힘 ━━ -->
   <section aria-labelledby="sec-collab">
     <details class="section-fold" open>
-      <summary class="st" id="sec-collab">5. 협업 작가 <span class="fold-chevron" aria-hidden="true"></span></summary>
+      <summary class="st" id="sec-collab">6. 협업 작가 <span class="fold-chevron" aria-hidden="true"></span></summary>
       <div class="fold-content">
         <h3 class="collab-cap">일러스트 협업</h3>
         <div class="collab-grid" id="collabIllust"></div>
@@ -487,17 +534,17 @@ section{margin-top:0}
     </details>
   </section>
 
-  <!-- ━━ 6. 주의사항: 기본 접힘 ━━ -->
+  <!-- ━━ 7. 주의사항: 기본 접힘 ━━ -->
   <section aria-labelledby="sec-notice">
     <details class="section-fold" open>
-      <summary class="st" id="sec-notice">6. 주의사항 <span class="fold-chevron" aria-hidden="true"></span></summary>
+      <summary class="st" id="sec-notice">7. 주의사항 <span class="fold-chevron" aria-hidden="true"></span></summary>
       <div class="fold-content"><ul class="notice-ul" id="noticeList"></ul></div>
     </details>
   </section>
 
-  <!-- ━━ 7. 신청 양식 · notice-block + eo-field·am-chip-group + am-form-preview ━━ -->
+  <!-- ━━ 8. 신청 양식 · notice-block + eo-field·am-chip-group + am-form-preview ━━ -->
   <section aria-labelledby="sec-form">
-    <h2 class="st" id="sec-form">7. 신청 양식</h2>
+    <h2 class="st" id="sec-form">8. 신청 양식</h2>
     <div class="nb"><span class="ico">💡</span>아래 항목을 작성한 뒤 복사하기 버튼으로 내용을 복사해 문의하기에 남겨주세요. (PSD 또는 일러스트가 있을 경우 함께 첨부)</div>
 
     <div class="form-card">
@@ -554,7 +601,25 @@ section{margin-top:0}
 
 </div>
 
-
+<!-- 판매 모델 상세 팝업: 페이지의 기존 .wrap 밖에 배치 -->
+<div class="sale-modal" id="saleModal" role="dialog" aria-modal="true" aria-labelledby="saleModalTitle" hidden>
+  <div class="sale-dialog">
+    <div class="sale-modal-head">
+      <h2 class="sale-modal-title" id="saleModalTitle">판매 모델</h2>
+      <button type="button" class="sale-close" id="saleClose" aria-label="팝업 닫기">×</button>
+    </div>
+    <div class="sale-modal-grid">
+      <div>
+        <h3 class="sale-panel-label">전신 이미지</h3>
+        <div class="sale-media sale-full" id="saleFull"></div>
+      </div>
+      <div>
+        <h3 class="sale-panel-label">움직임 영상</h3>
+        <div class="sale-media sale-motion" id="saleMotion"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -645,7 +710,120 @@ car.addEventListener('keydown',function(e){
   if(e.key==='ArrowRight'){e.preventDefault();go(idx+1);}
 });
 
-/* ═══ 5. 협업 작가 — 문서 정본 11명 ═══ */
+
+/* ═══ 5. 판매 모델 — 자료가 생기면 models 배열만 수정 ═══ */
+var models=[
+  {name:'모델 01',thumbnail:'',fullImage:'',video:''},
+  {name:'모델 02',thumbnail:'',fullImage:'',video:''},
+  {name:'모델 03',thumbnail:'',fullImage:'',video:''},
+  {name:'모델 04',thumbnail:'',fullImage:'',video:''}
+];
+// thumbnail: 상반신 썸네일, fullImage: 전신 이미지,
+// video: MP4/WebM 파일 주소 또는 YouTube 영상 주소
+var saleGrid=document.getElementById('saleGrid');
+var saleModal=document.getElementById('saleModal');
+var saleModalTitle=document.getElementById('saleModalTitle');
+var saleFull=document.getElementById('saleFull');
+var saleMotion=document.getElementById('saleMotion');
+var saleClose=document.getElementById('saleClose');
+var saleLastOpener=null;
+function salePlaceholder(){
+  var e=document.createElement('span');
+  e.className='sale-empty';
+  e.textContent='준비 중';
+  return e;
+}
+function saleImage(container,url,alt){
+  container.replaceChildren();
+  url=String(url||'').trim();
+  if(!url){container.appendChild(salePlaceholder());return;}
+  var img=document.createElement('img');
+  img.alt=alt;
+  img.loading='lazy';
+  img.src=url;
+  img.addEventListener('error',function(){container.replaceChildren(salePlaceholder());},{once:true});
+  container.appendChild(img);
+}
+function saleYouTubeId(url){
+  try{
+    var u=new URL(url,window.location.href);
+    var host=u.hostname.replace(/^(www\.|m\.)/,'');
+    var id=null;
+    if(host==='youtu.be'){
+      id=u.pathname.split('/')[1];
+    }else if(host==='youtube.com'||host==='youtube-nocookie.com'){
+      id=u.pathname==='/watch'?u.searchParams.get('v'):u.pathname.match(/^\/(?:embed|shorts|live)\/([^/]+)/)?.[1];
+    }
+    return id&&/^[\w-]{11}$/.test(id)?id:null;
+  }catch(e){return null;}
+}
+function closeSaleModel(){
+  if(saleModal.hidden)return;
+  var video=saleMotion.querySelector('video');
+  if(video){video.pause();video.removeAttribute('src');video.load();}
+  saleMotion.replaceChildren(); // iframe도 제거되어 YouTube 재생이 중단됨
+  saleFull.replaceChildren();
+  saleModal.hidden=true;
+  document.body.classList.remove('sale-modal-open');
+  if(saleLastOpener&&saleLastOpener.isConnected)saleLastOpener.focus();
+}
+function openSaleModel(model,opener){
+  saleLastOpener=opener;
+  saleModalTitle.textContent=model.name||'판매 모델';
+  saleImage(saleFull,model.fullImage,(model.name||'모델')+' 전신 이미지');
+  saleMotion.replaceChildren();
+  var url=String(model.video||'').trim();
+  if(!url){
+    saleMotion.appendChild(salePlaceholder());
+  }else{
+    var id=saleYouTubeId(url);
+    if(id){
+      var iframe=document.createElement('iframe');
+      iframe.src='https://www.youtube-nocookie.com/embed/'+id+'?rel=0';
+      iframe.title=(model.name||'모델')+' 움직임 영상';
+      iframe.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen=true;
+      saleMotion.appendChild(iframe);
+    }else{
+      var video=document.createElement('video');
+      video.controls=true;
+      video.playsInline=true;
+      video.preload='metadata';
+      video.src=url;
+      saleMotion.appendChild(video);
+    }
+  }
+  saleModal.hidden=false;
+  document.body.classList.add('sale-modal-open');
+  saleClose.focus();
+}
+models.forEach(function(model){
+  var card=document.createElement('article');
+  card.className='sale-card';
+  var thumb=document.createElement('div');
+  thumb.className='sale-thumb';
+  saleImage(thumb,model.thumbnail,(model.name||'모델')+' 상반신 이미지');
+  var info=document.createElement('div');
+  info.className='sale-card-info';
+  var name=document.createElement('div');
+  name.className='sale-card-name';
+  name.textContent=model.name||'이름 미정';
+  var button=document.createElement('button');
+  button.type='button';
+  button.className='sale-view';
+  button.textContent='전신 · 영상 보기';
+  button.addEventListener('click',function(){openSaleModel(model,button);});
+  info.append(name,button);
+  card.append(thumb,info);
+  saleGrid.appendChild(card);
+});
+saleClose.addEventListener('click',closeSaleModel);
+saleModal.addEventListener('click',function(e){if(e.target===saleModal)closeSaleModel();});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&!saleModal.hidden)closeSaleModel();
+});
+
+/* ═══ 6. 협업 작가 — 문서 정본 11명 ═══ */
 var ILLUST=[
   ['CHO','https://artmug.kr/index.php?channel=view&uid=31293',['일러스트 5만원 할인','리깅 5만원 할인','표정 파츠, 리깅 3개 무료'],'cho.png'],
   ['kuring','https://artmug.kr/index.php?channel=view&uid=43011',['일러스트 5만원 할인','리깅 5만원 할인','표정 파츠, 리깅 3개 무료'],'kuring.png'],
@@ -680,7 +858,7 @@ function collabCard(a,role){
 document.getElementById('collabIllust').innerHTML=ILLUST.map(function(a){return collabCard(a,'일러스트');}).join('');
 document.getElementById('collabDesign').innerHTML=DESIGN.map(function(a){return collabCard(a,'디자인');}).join('');
 
-/* ═══ 6. 주의사항 — 문서 정본 15조 (1번 위험 톤) ═══ */
+/* ═══ 7. 주의사항 — 문서 정본 15조 (1번 위험 톤) ═══ */
 var NOTICES=[
   '주의사항을 읽지 않음으로써 생기는 모든 불이익은 책임지지 않습니다.',
   '작업물은 작가의 SNS, 유튜브, 포트폴리오 등에 업로드될 수 있습니다.',
@@ -702,7 +880,7 @@ document.getElementById('noticeList').innerHTML=NOTICES.map(function(t,i){
   return '<li'+(i===0?' class="danger"':'')+'><span class="notice-num">'+(i+1)+'</span><span>'+t+'</span></li>';
 }).join('');
 
-/* ═══ 7. 신청 양식 — 칩 토글 + 실시간 미리보기 + 복사 ═══ */
+/* ═══ 8. 신청 양식 — 칩 토글 + 실시간 미리보기 + 복사 ═══ */
 var rigChips=document.getElementById('chipRig');
 var addonChips=document.getElementById('chipAddon');
 rigChips.addEventListener('click',function(e){
